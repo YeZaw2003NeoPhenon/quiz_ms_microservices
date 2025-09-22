@@ -1,4 +1,4 @@
-package com.example.quiz_service.dto;
+package com.example.account_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class LoginRequest {
 
-    private String name;
-    private Gender gender;
     private String email;
+    private String password;
+
 }

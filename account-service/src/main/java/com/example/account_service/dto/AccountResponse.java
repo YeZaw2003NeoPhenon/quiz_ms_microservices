@@ -1,5 +1,6 @@
-package com.example.quiz_service.dto;
+package com.example.account_service.dto;
 
+import com.example.account_service.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class AccountResponse {
 
-    private String name;
-    private Gender gender;
     private String email;
+    private Role role;
 }

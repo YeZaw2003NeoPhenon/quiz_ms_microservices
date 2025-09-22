@@ -20,14 +20,17 @@ public class QuizController {
     private final QuizService quizService;
 
     @PostMapping("/create")
-    public ResponseEntity<QuizResponse> createQuiz(@RequestBody QuizDto quizDto){
-        QuizResponse response = quizService.createQuiz(quizDto.getCategory(), quizDto.getNumOfQuestions(), quizDto.getTitle(), quizDto.getUserId());
+    public ResponseEntity<QuizResponse> createQuiz(@RequestBody QuizDto quizDto, @RequestHeader("Authorization") String token){
+
+//        String token = authHeader.replace("Bearer ", "");
+
+        QuizResponse response = quizService.createQuiz(token, quizDto.getCategory(), quizDto.getNumOfQuestions(), quizDto.getTitle(), quizDto.getUserId());
         return ResponseEntity.created(URI.create("/api/v1/quiz/create")).body(response);
     }
 
     @GetMapping("/questions/{id}")
-    public ResponseEntity<List<QuestionResponse>> getQuizQuestionsByQuizId(@PathVariable Integer id){
-        return ResponseEntity.ok().body(quizService.getQuestionsByQuiz(id));
+    public ResponseEntity<List<QuestionResponse>> getQuizQuestionsByQuizId(@PathVariable Integer id, @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok().body(quizService.getQuestionsByQuiz(token,id));
     }
 
     /// param (id) refers to quiz id

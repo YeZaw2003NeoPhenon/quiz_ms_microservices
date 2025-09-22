@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizDto {
-
     private String category;
     private Integer numOfQuestions;
     private String title;
