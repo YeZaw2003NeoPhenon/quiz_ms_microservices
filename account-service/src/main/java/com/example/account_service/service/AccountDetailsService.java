@@ -1,6 +1,5 @@
 package com.example.account_service.service;
 
-
 import com.example.account_service.dao.AccountDao;
 import com.example.account_service.model.Account;
 import com.example.account_service.model.AccountDetails;

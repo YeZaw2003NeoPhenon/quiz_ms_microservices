@@ -24,7 +24,6 @@ public class AccountService {
     private final JwtUtils jwtUtils;
 
     public AccountResponse register(AccountRequest request){
-
         if (accountDao.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already in use");
         }

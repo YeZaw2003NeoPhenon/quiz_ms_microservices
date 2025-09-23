@@ -31,4 +31,5 @@ public class AccountController {
     public ResponseEntity<AccountResponse> validate(@RequestHeader("Authorization") String authHeader){
         return ResponseEntity.ok(accountService.validate(authHeader));
     }
+
 }
