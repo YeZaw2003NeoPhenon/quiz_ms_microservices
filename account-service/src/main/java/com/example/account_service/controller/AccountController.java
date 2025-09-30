@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -30,6 +31,11 @@ public class AccountController {
     @GetMapping("/validate")
     public ResponseEntity<AccountResponse> validate(@RequestHeader("Authorization") String authHeader){
         return ResponseEntity.ok(accountService.validate(authHeader));
+    }
+
+    @GetMapping("/all-accounts")
+    public ResponseEntity<List<AccountResponse>> allAccounts(){
+        return ResponseEntity.ok(accountService.getAllAccounts());
     }
 
 }

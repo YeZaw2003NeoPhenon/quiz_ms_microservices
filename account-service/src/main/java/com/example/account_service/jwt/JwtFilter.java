@@ -1,5 +1,6 @@
 package com.example.account_service.jwt;
 
+import com.example.account_service.dto.AccountResponse;
 import com.example.account_service.model.AccountDetails;
 import com.example.account_service.service.AccountDetailsService;
 import jakarta.servlet.FilterChain;
@@ -39,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String email = jwtUtils.extractEmail(token);
         AccountDetails accountDetails = (AccountDetails) accountDetailsService.loadUserByUsername(email);
 
-        if (jwtUtils.validateToken(token,email)) {
+        if(jwtUtils.validateToken(token,email)){
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(accountDetails.getUsername(), null, accountDetails.getAuthorities());

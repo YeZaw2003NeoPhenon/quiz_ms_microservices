@@ -39,9 +39,10 @@ public class SecurityConfig {
                     .httpBasic(http -> {
                     Customizer.withDefaults();
                 })
-                      .authorizeHttpRequests(request -> {
+                    .authorizeHttpRequests(request -> {
                           request.requestMatchers(HttpMethod.POST,"/api/v1/accounts/register").hasRole(Role.ADMIN.name())
                                   .requestMatchers(HttpMethod.POST , "/api/v1/accounts/login").permitAll()
+                                  .requestMatchers("/api/v1/accounts/all").hasRole(Role.ADMIN.name())
                                   .anyRequest().authenticated();
                       })
                     .sessionManagement(session -> {
