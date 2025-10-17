@@ -47,7 +47,7 @@ public class QuestionServiceImp implements QuestionService {
 
     @Override
     public List<Question> getQuestionByCategory(String category) {
-       return questionDao.findQuestionByCategoryContainingIgnoreCase(category);
+       return questionDao.findQuestionByCategory(category);
 //         String lowerCategory = category.toLowerCase();
 //        return getAllQuestions().stream()
 //                .filter(q -> q.getCategory().toLowerCase().contains(lowerCategory))

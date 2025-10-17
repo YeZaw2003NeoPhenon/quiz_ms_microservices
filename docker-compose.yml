@@ -1,0 +1,182 @@
+services:
+
+  quiz_db:
+    image: postgres:latest
+    container_name: postgres-quiz
+    environment:
+      POSTGRES_DB: quizzdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: neophenon!@#
+    ports:
+      - "5000:5432"
+    volumes:
+      - quiz_db_data:/var/lib/postgresql/data
+    networks:
+        - quiz_net
+
+  quiz_app:
+    build:
+      context: ./quiz-service
+      dockerfile: Dockerfile
+    container_name: quiz_app_container
+    ports:
+      - "8090:8090"
+    networks:
+        - quiz_net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-quiz:5432/quizzdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: neophenon!@#
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    depends_on:
+      - quiz_db
+      - service-registry
+
+  question-service:
+    build:
+      context: ./question-service
+      dockerfile: Dockerfile
+    container_name: question_service_container
+    ports:
+      - "8080:8080"
+    networks:
+        - quiz_net
+    environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-question:5432/questiondb
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: neophenon!@#
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    depends_on:
+        - question-db
+        - service-registry
+
+  question-db:
+    image: postgres:latest
+    container_name: postgres-question
+    environment:
+        POSTGRES_DB: questiondb
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: neophenon!@#
+    ports:
+        - "5001:5432"
+    volumes:
+        - question_db_data:/var/lib/postgresql/data
+    networks:
+        - quiz_net
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user_service_container
+    ports:
+      - "8050:8050"
+    networks:
+      - quiz_net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-user:5432/userdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: neophenon!@#
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    depends_on:
+      - user-db
+      - service-registry
+
+  user-db:
+    image: postgres:latest
+    container_name: postgres-user
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: neophenon!@#
+    ports:
+      - "5002:5432"
+    networks:
+      - quiz_net
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+
+  account-service:
+    build:
+      context: ./account-service
+      dockerfile: Dockerfile
+    container_name: account_service_container
+    ports:
+      - "8055:8055"
+    networks:
+      - quiz_net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-account:5432/accountdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: neophenon!@#
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    depends_on:
+      - account-db
+      - service-registry
+
+  account-db:
+    image: postgres:latest
+    container_name: postgres-account
+    environment:
+      POSTGRES_DB: accountdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: neophenon!@#
+    ports:
+      - "5003:5432"
+    networks:
+      - quiz_net
+    volumes:
+      - account_db_data:/var/lib/postgresql/data
+
+  score-service:
+    build:
+      context: ./score-service
+      dockerfile: Dockerfile
+    container_name: score_service_container
+    ports:
+      - "8060:8060"
+    networks:
+      - quiz_net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-score:5432/scoredb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: neophenon!@#
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    depends_on:
+      - score-db
+      - service-registry
+
+  score-db:
+    image: postgres:latest
+    container_name: postgres-score
+    environment:
+      POSTGRES_DB: scoredb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: neophenon!@#
+    ports:
+      - "5004:5432"
+    networks:
+      - quiz_net
+    volumes:
+      - score_db_data:/var/lib/postgresql/data
+
+
+  service-registry:
+    build:
+        context: ./service-registry
+        dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - quiz_net
+
+networks:
+   quiz_net:
+      driver: bridge
+
+volumes:
+  quiz_db_data:
+  question_db_data:
+  user_db_data:
+  account_db_data:
+  score_db_data:

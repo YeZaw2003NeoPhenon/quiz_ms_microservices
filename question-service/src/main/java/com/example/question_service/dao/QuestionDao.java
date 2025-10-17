@@ -10,7 +10,7 @@ import java.util.List;
 public interface QuestionDao extends JpaRepository<Question, Integer> {
 
     @Query("SELECT q FROM Question q WHERE LOWER(q.category) LIKE LOWER(CONCAT('%', :category, '%'))")
-    List<Question> findQuestionByCategoryContainingIgnoreCase(String category);
+    List<Question> findQuestionByCategory(String category);
 
     @Query("SELECT q.id FROM Question q WHERE q.category = :category ORDER BY RANDOM() LIMIT :numberOfQuestions")
     List<Integer> findRandomQuestionsByCategory(String category, int numberOfQuestions);

@@ -82,6 +82,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>user-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
